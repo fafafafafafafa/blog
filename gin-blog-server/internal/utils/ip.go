@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lionsoul2014/ip2region/binding/golang/xdb"
+	"xojoc.pw/useragent"
 )
 
 var IP = new(ipUtil)
@@ -183,4 +184,7 @@ func (*ipUtil) GetIpSource(ipAddress string) string {
 		return ""
 	}
 	return region
+}
+func (*ipUtil) GetUserAgent(c *gin.Context) *useragent.UserAgent {
+	return useragent.Parse(c.Request.UserAgent())
 }

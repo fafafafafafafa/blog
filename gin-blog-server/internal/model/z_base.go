@@ -47,3 +47,8 @@ type Model struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type OptionVO struct {
+	ID   int    `json:"value"`
+	Name string `json:"label"`
+}

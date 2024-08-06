@@ -48,6 +48,21 @@ type Config struct {
 		Salt   string
 		MaxAge int
 	}
+	Upload struct {
+		// Size      int    // 文件上传的最大值
+		OssType   string // local | qiniu
+		Path      string // 本地文件访问路径
+		StorePath string // 本地文件存储路径
+	}
+	Qiniu struct {
+		ImgPath       string // 外链链接
+		Zone          string // 存储区域
+		Bucket        string // 空间名称
+		AccessKey     string // 秘钥AK
+		SecretKey     string // 秘钥SK
+		UseHTTPS      bool   // 是否使用https
+		UseCdnDomains bool   // 上传是否使用 CDN 上传加速
+	}
 }
 
 var Conf *Config

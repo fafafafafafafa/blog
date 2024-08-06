@@ -6,3 +6,14 @@ type Category struct {
 	Name     string    `gorm:"unique;type:varchar(20);not null" json:"name"`
 	Articles []Article `gorm:"foreignKey:CategoryId"`
 }
+
+type CategoryVO struct {
+	Category
+	ArticleCount int `json:"article_count"`
+}
+
+// 添加/编辑分类对象
+type AddOrEditCategoryReq struct {
+	ID   int    `json:"id"`
+	Name string `json:"name" binding:"required"`
+}

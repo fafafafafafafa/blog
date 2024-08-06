@@ -5,6 +5,8 @@ import (
 	ginblog "gin-blog/internal"
 	g "gin-blog/internal/global"
 	"gin-blog/internal/middleware"
+	"log"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,4 +37,12 @@ func main() {
 	r.Use(middleware.WithRedisDB(rdb))
 	r.Use(middleware.WithCookieStore(conf.Session.Name, conf.Session.Salt))
 	ginblog.RegisterHandlers(r)
+
+	serverAddr := conf.Server.Port
+	if serverAddr[0] == ':' || strings.HasPrefix(serverAddr, "0.0.0.0:") {
+		log.Printf("Serving HTTP on (http://localhost:%s/) ... \n", strings.Split(serverAddr, ":")[1])
+	} else {
+		log.Printf("Serving HTTP on (http://%s/) ... \n", serverAddr)
+	}
+	r.Run(serverAddr)
 }

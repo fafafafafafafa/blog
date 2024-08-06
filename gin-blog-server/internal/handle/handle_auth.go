@@ -139,6 +139,55 @@ func (*UserAuth) Login(c *gin.Context) {
 	})
 }
 
+// @Summary 退出登录
+// @Description 退出登录
+// @Tags UserAuth
+// @Accept json
+// @Produce json
+// @Success 0 {object} string
+// @Router /logout [post]
+func (*UserAuth) Logout(c *gin.Context) {
+	// value, exist := c.Get(g.CTX_USER_AUTH)
+	// slog.Info("查看CTX_USER_AUTH的值1", g.CTX_USER_AUTH, value, "exist:", exist)  return nil, false
+
+	c.Set(g.CTX_USER_AUTH, nil) // 这里设置有什么意义？
+	// value, exist = c.Get(g.CTX_USER_AUTH)
+	// slog.Info("查看CTX_USER_AUTH的值2", g.CTX_USER_AUTH, value, "exist:", exist) return nil, true
+	// 已经退出登录
+	auth, _ := CurrentUserAuth(c)
+	if auth == nil {
+		ReturnSuccess(c, nil)
+		return
+	}
+
+	session := sessions.Default(c)
+	// value = session.Get(g.CTX_USER_AUTH)
+	// slog.Info("查看CTX_USER_AUTH的值3", g.CTX_USER_AUTH, value)
+	session.Delete(g.CTX_USER_AUTH)
+	// value = session.Get(g.CTX_USER_AUTH)
+	// slog.Info("查看CTX_USER_AUTH的值4", g.CTX_USER_AUTH, value)
+	session.Save()
+
+	// 删除 Redis 中的在线状态
+	rdb := GetRDB(c)
+	onlineKey := g.ONLINE_USER + strconv.Itoa(auth.ID)
+	rdb.Del(rctx, onlineKey)
+
+	ReturnSuccess(c, nil)
+}
+
+// @Summary 发送邮箱验证码
+// @Description 发送邮箱验证码
+// @Tags UserAuth
+// @Param email query string true "邮箱"
+// @Accept json
+// @Produce json
+// @Success 0 {object} string
+// @Router /code [get]
+func (*UserAuth) SendCode(c *gin.Context) {
+	ReturnSuccess(c, "发送邮箱验证码") // TODO
+}
+
 // @Summary 注册
 // @Description 注册
 // @Tags UserAuth
@@ -149,33 +198,4 @@ func (*UserAuth) Login(c *gin.Context) {
 // @Router /register [post]
 func (*UserAuth) Register(c *gin.Context) {
 	ReturnSuccess(c, "注册") // 还未实现
-}
-
-// @Summary 退出登录
-// @Description 退出登录
-// @Tags UserAuth
-// @Accept json
-// @Produce json
-// @Success 0 {object} string
-// @Router /logout [post]
-func (*UserAuth) Logout(c *gin.Context) {
-	c.Set(g.CTX_USER_AUTH, nil) // 因为之前只保存了id，所以设为nil，防止CurrentUserAuth把里面的信息当model.UserAuth读了，不确定
-
-	// 已经退出登录
-	auth, _ := CurrentUserAuth(c)
-	if auth == nil {
-		ReturnSuccess(c, nil)
-		return
-	}
-
-	session := sessions.Default(c)
-	session.Delete(g.CTX_USER_AUTH)
-	session.Save()
-
-	// 删除 Redis 中的在线状态
-	rdb := GetRDB(c)
-	onlineKey := g.ONLINE_USER + strconv.Itoa(auth.ID)
-	rdb.Del(rctx, onlineKey)
-
-	ReturnSuccess(c, nil)
 }

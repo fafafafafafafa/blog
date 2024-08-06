@@ -85,6 +85,21 @@ func GetRDB(c *gin.Context) *redis.Client {
 	return c.MustGet(g.CTX_RDB).(*redis.Client)
 }
 
+// 分页获取数据
+type PageQuery struct {
+	Page    int    `form:"page_num"`  // 当前页数（从1开始）
+	Size    int    `form:"page_size"` // 每页条数
+	Keyword string `form:"keyword"`   // 搜索关键字
+}
+
+// 分页响应数据
+type PageResult[T any] struct {
+	Page  int   `json:"page_num"`  // 页数
+	Size  int   `json:"page_size"` // 每页条数
+	Total int64 `json:"total"`     // 总条数
+	List  []T   `json:"page_data"` // 分页数据
+}
+
 /*
 获取当前登录用户信息
 1. 能从 gin Context 上获取到 user 对象, 说明本次请求链路中获取过了

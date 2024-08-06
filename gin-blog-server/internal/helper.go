@@ -51,7 +51,7 @@ func InitLogger(conf *g.Config) *slog.Logger {
 	case "json":
 		handler = slog.NewJSONHandler(os.Stdout, option)
 	case "text":
-		fallthrough
+		fallthrough // 强制执行后面的case，不会break
 	default:
 		handler = slog.NewTextHandler(os.Stdout, option)
 	}
