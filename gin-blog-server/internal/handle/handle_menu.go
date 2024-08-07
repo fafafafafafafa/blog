@@ -1,12 +1,15 @@
 package handle
 
 import (
+	"errors"
 	"gin-blog/internal/dao"
 	g "gin-blog/internal/global"
 	"gin-blog/internal/model"
 	"sort"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type Menu struct{}
@@ -91,4 +94,94 @@ func sortMenu(menus []MenuTreeVO) {
 			return menus[i].Children[j].OrderNum < menus[i].Children[k].OrderNum
 		})
 	}
+}
+
+func (*Menu) GetTreeList(c *gin.Context) {
+	keyword := c.Query("keyword")
+
+	menuList, _, err := dao.GetMenuList(GetDB(c), keyword)
+	if err != nil {
+		ReturnError(c, g.ErrDbOp, err)
+		return
+	}
+
+	ReturnSuccess(c, menus2MenuVos(menuList))
+}
+
+func (*Menu) AddOrUpdate(c *gin.Context) {
+	var req model.Menu
+	if err := c.ShouldBindJSON(&req); err != nil {
+		ReturnError(c, g.ErrRequest, err)
+		return
+	}
+
+	if err := dao.AddOrUpdateMenu(GetDB(c), &req); err != nil {
+		ReturnError(c, g.ErrDbOp, err)
+		return
+	}
+
+	ReturnSuccess(c, nil)
+}
+
+func (*Menu) Delete(c *gin.Context) {
+	menuId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		ReturnError(c, g.ErrRequest, err)
+		return
+	}
+
+	db := GetDB(c)
+
+	// 检查要删除的菜单是否被角色使用
+	use, _ := dao.CheckMenuInUse(db, menuId)
+	if use {
+		ReturnError(c, g.ErrMenuUsedByRole, nil)
+		return
+	}
+
+	// 如果是一级菜单, 检查其是否有子菜单
+	menu, err := dao.GetMenuById(db, menuId)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			ReturnError(c, g.ErrMenuNotExist, nil)
+			return
+		}
+		ReturnError(c, g.ErrDbOp, err)
+		return
+	}
+
+	// 一级菜单下有子菜单, 不允许删除
+	if menu.ParentId == 0 {
+		has, _ := dao.CheckMenuHasChild(db, menuId)
+		if has {
+			ReturnError(c, g.ErrMenuHasChildren, nil)
+			return
+		}
+	}
+
+	if err = dao.DeleteMenu(db, menuId); err != nil {
+		ReturnError(c, g.ErrDbOp, err)
+		return
+	}
+
+	ReturnSuccess(c, nil)
+}
+
+func (*Menu) GetOption(c *gin.Context) {
+	menus, _, err := dao.GetMenuList(GetDB(c), "")
+	if err != nil {
+		ReturnError(c, g.ErrDbOp, err)
+		return
+	}
+
+	result := make([]model.TreeOptionVO, 0)
+	for _, menu := range menus2MenuVos(menus) {
+		option := model.TreeOptionVO{ID: menu.ID, Label: menu.Name}
+		for _, child := range menu.Children {
+			option.Children = append(option.Children, model.TreeOptionVO{ID: child.ID, Label: child.Name})
+		}
+		result = append(result, option)
+	}
+
+	ReturnSuccess(c, result)
 }
