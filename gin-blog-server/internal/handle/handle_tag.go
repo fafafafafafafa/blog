@@ -22,7 +22,7 @@ type Tag struct{}
 // @Security ApiKeyAuth
 // @Router /tag/list [get]
 func (*Tag) GetList(c *gin.Context) {
-	var query PageQuery
+	var query model.PageQuery
 	if err := c.ShouldBindQuery(&query); err != nil {
 		ReturnError(c, g.ErrRequest, err)
 		return
@@ -34,7 +34,7 @@ func (*Tag) GetList(c *gin.Context) {
 		return
 	}
 
-	ReturnSuccess(c, PageResult[model.TagVO]{
+	ReturnSuccess(c, model.PageResult[model.TagVO]{
 		Total: total,
 		List:  data,
 		Size:  query.Size,

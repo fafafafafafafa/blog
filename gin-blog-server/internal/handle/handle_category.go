@@ -22,7 +22,7 @@ type Category struct{}
 // @Security ApiKeyAuth
 // @Router /category/list [get]
 func (*Category) GetList(c *gin.Context) {
-	var query PageQuery
+	var query model.PageQuery
 	if err := c.ShouldBindQuery(&query); err != nil {
 		ReturnError(c, g.ErrRequest, err)
 		return
@@ -34,7 +34,7 @@ func (*Category) GetList(c *gin.Context) {
 		return
 	}
 
-	ReturnSuccess(c, PageResult[model.CategoryVO]{
+	ReturnSuccess(c, model.PageResult[model.CategoryVO]{
 		Total: total,
 		List:  data,
 		Size:  query.Size,

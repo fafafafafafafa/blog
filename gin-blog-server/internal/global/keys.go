@@ -16,6 +16,8 @@ const (
 	KEY_UNIQUE_VISITOR_SET = "unique_visitor" // 唯一用户记录 set
 
 	ARTICLE_USER_LIKE_SET = "article_user_like:" // 文章点赞 Set
+	ARTICLE_LIKE_COUNT    = "article_like_count" // 文章点赞数
+	ARTICLE_VIEW_COUNT    = "article_view_count" // 文章查看数
 
 	COMMENT_USER_LIKE_SET = "comment_user_like:" // 评论点赞 Set
 
@@ -25,5 +27,6 @@ const (
 
 // Config Key
 const (
-	CONFIG_ABOUT = "about"
+	CONFIG_ARTICLE_COVER = "article_cover"
+	CONFIG_ABOUT         = "about"
 )

@@ -14,6 +14,7 @@ var (
 	// 后台管理系统接口
 	categoryAPI handle.Category // 分类
 	tagAPI      handle.Tag      // 标签
+	articleAPI  handle.Article  // 文章
 	userAuthAPI handle.UserAuth // 用户账号
 	blogInfoAPI handle.BlogInfo // 博客设置
 	uploadAPI   handle.Upload   // 文件上传
@@ -97,17 +98,17 @@ func registerAdminHandler(r *gin.Engine) {
 		tag.GET("/option", tagAPI.GetOption) // 标签选项列表
 	}
 	// 文章模块
-	// articles := auth.Group("/article")
-	// {
-	// 	articles.GET("/list", articleAPI.GetList)                 // 文章列表
-	// 	articles.POST("", articleAPI.SaveOrUpdate)                // 新增/编辑文章
-	// 	articles.PUT("/top", articleAPI.UpdateTop)                // 更新文章置顶
-	// 	articles.GET("/:id", articleAPI.GetDetail)                // 文章详情
-	// 	articles.PUT("/soft-delete", articleAPI.UpdateSoftDelete) // 软删除文章
-	// 	articles.DELETE("", articleAPI.Delete)                    // 物理删除文章
-	// 	articles.POST("/export", articleAPI.Export)               // 导出文章
-	// 	articles.POST("/import", articleAPI.Import)               // 导入文章
-	// }
+	articles := auth.Group("/article")
+	{
+		articles.GET("/list", articleAPI.GetList)                 // 文章列表
+		articles.POST("", articleAPI.AddOrUpdate)                 // 新增/编辑文章
+		articles.PUT("/top", articleAPI.UpdateTop)                // 更新文章置顶
+		articles.GET("/:id", articleAPI.GetDetail)                // 文章详情
+		articles.PUT("/soft-delete", articleAPI.UpdateSoftDelete) // 软删除文章
+		articles.DELETE("", articleAPI.Delete)                    // 物理删除文章
+		articles.POST("/export", articleAPI.Export)               // 导出文章
+		articles.POST("/import", articleAPI.Import)               // 导入文章
+	}
 	// 菜单模块
 	menu := auth.Group("/menu")
 	{

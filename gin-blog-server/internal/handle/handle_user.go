@@ -48,7 +48,7 @@ func (*User) GetInfo(c *gin.Context) {
 }
 
 type UserQuery struct {
-	PageQuery
+	model.PageQuery
 	LoginType int8   `form:"login_type"`
 	Username  string `form:"username"`
 	Nickname  string `form:"nickname"`
@@ -68,7 +68,7 @@ func (*User) GetList(c *gin.Context) {
 		return
 	}
 
-	ReturnSuccess(c, PageResult[model.UserAuth]{
+	ReturnSuccess(c, model.PageResult[model.UserAuth]{
 		Size:  query.Size,
 		Page:  query.Page,
 		Total: count,

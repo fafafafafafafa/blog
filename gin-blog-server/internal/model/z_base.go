@@ -52,3 +52,18 @@ type OptionVO struct {
 	ID   int    `json:"value"`
 	Name string `json:"label"`
 }
+
+// 分页获取数据
+type PageQuery struct {
+	Page    int    `form:"page_num"`  // 当前页数（从1开始）
+	Size    int    `form:"page_size"` // 每页条数
+	Keyword string `form:"keyword"`   // 搜索关键字
+}
+
+// 分页响应数据
+type PageResult[T any] struct {
+	Page  int   `json:"page_num"`  // 页数
+	Size  int   `json:"page_size"` // 每页条数
+	Total int64 `json:"total"`     // 总条数
+	List  []T   `json:"page_data"` // 分页数据
+}

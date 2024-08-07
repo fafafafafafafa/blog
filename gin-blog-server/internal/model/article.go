@@ -31,3 +31,47 @@ type ArticleTag struct {
 	ArticleId int
 	TagId     int
 }
+
+// TODO: 添加对标签数组的查询
+type ArticleQuery struct {
+	PageQuery
+	Title      string `form:"title"`
+	CategoryId int    `form:"category_id"`
+	TagId      int    `form:"tag_id"`
+	Type       int    `form:"type"`
+	Status     int    `form:"status"`
+	IsDelete   *bool  `form:"is_delete"`
+}
+
+type ArticleVO struct {
+	Article
+
+	LikeCount    int `json:"like_count" gorm:"-"`
+	ViewCount    int `json:"view_count" gorm:"-"`
+	CommentCount int `json:"comment_count" gorm:"-"`
+}
+
+type AddOrEditArticleReq struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title" binding:"required"`
+	Desc        string `json:"desc"`
+	Content     string `json:"content" binding:"required"`
+	Img         string `json:"img"`
+	Type        int    `json:"type" binding:"required,min=1,max=3"`   // 类型: 1-原创 2-转载 3-翻译
+	Status      int    `json:"status" binding:"required,min=1,max=3"` // 状态: 1-公开 2-私密 3-评论可见
+	IsTop       bool   `json:"is_top"`
+	OriginalUrl string `json:"original_url"`
+
+	TagNames     []string `json:"tag_names"`
+	CategoryName string   `json:"category_name"`
+}
+
+type UpdateArticleTopReq struct {
+	ID    int  `json:"id"`
+	IsTop bool `json:"is_top"`
+}
+
+type SoftDeleteReq struct {
+	Ids      []int `json:"ids"`
+	IsDelete bool  `json:"is_delete"`
+}
