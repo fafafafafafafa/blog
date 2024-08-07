@@ -127,3 +127,23 @@ type TreeOptionVO struct {
 	Label    string         `json:"label"`
 	Children []TreeOptionVO `json:"children"`
 }
+
+type RoleVO struct {
+	ID          int       `json:"id"`
+	CreatedAt   time.Time `json:"created_at"`
+	Name        string    `json:"name"`
+	Label       string    `json:"label"`
+	IsDisable   bool      `json:"is_disable"`
+	ResourceIds []int     `json:"resource_ids" gorm:"-"`
+	MenuIds     []int     `json:"menu_ids" gorm:"-"`
+}
+
+// 新增/编辑 角色, 关联维护 role_resource, role_menu
+type AddOrEditRoleReq struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name" binding:"required"`
+	Label       string `json:"label" binding:"required"`
+	IsDisable   bool   `json:"is_disable"`
+	ResourceIds []int  `json:"resource_ids"` // 资源 id 列表
+	MenuIds     []int  `json:"menu_ids"`     // 菜单 id 列表
+}

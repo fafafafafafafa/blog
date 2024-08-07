@@ -22,7 +22,7 @@ const (
 	COMMENT_USER_LIKE_SET = "comment_user_like:" // 评论点赞 Set
 
 	CONFIG = "config" // 博客配置
-
+	PAGE   = "page"   // 页面封面
 )
 
 // Config Key

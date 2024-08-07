@@ -12,18 +12,21 @@ import (
 
 var (
 	// 后台管理系统接口
-	categoryAPI handle.Category // 分类
-	tagAPI      handle.Tag      // 标签
-	articleAPI  handle.Article  // 文章
-	commentAPI  handle.Comment  // 评论
-	messageAPI  handle.Message  // 留言
-	linkAPI     handle.Link     // 友情链接
-	resourceAPI handle.Resource // 资源
-	userAuthAPI handle.UserAuth // 用户账号
-	blogInfoAPI handle.BlogInfo // 博客设置
-	uploadAPI   handle.Upload   // 文件上传
-	userAPI     handle.User     // 用户
-	menuAPI     handle.Menu     // 菜单
+	categoryAPI     handle.Category     // 分类
+	tagAPI          handle.Tag          // 标签
+	articleAPI      handle.Article      // 文章
+	commentAPI      handle.Comment      // 评论
+	messageAPI      handle.Message      // 留言
+	linkAPI         handle.Link         // 友情链接
+	resourceAPI     handle.Resource     // 资源
+	userAuthAPI     handle.UserAuth     // 用户账号
+	blogInfoAPI     handle.BlogInfo     // 博客设置
+	uploadAPI       handle.Upload       // 文件上传
+	userAPI         handle.User         // 用户
+	menuAPI         handle.Menu         // 菜单
+	roleAPI         handle.Role         // 角色
+	operationLogAPI handle.OperationLog // 操作日志
+	pageAPI         handle.Page         // 页面
 )
 
 // TODO: 前端修改 PUT 和 PATCH 请求
@@ -153,5 +156,29 @@ func registerAdminHandler(r *gin.Engine) {
 		menu.DELETE("/:id", menuAPI.Delete)         // 删除菜单
 		menu.GET("/user/list", menuAPI.GetUserMenu) // 获取当前用户的菜单
 		menu.GET("/option", menuAPI.GetOption)      // 菜单选项列表(树形)
+	}
+
+	// 角色模块
+	role := auth.Group("/role")
+	{
+		role.GET("/list", roleAPI.GetTreeList) // 角色列表(树形)
+		role.POST("", roleAPI.AddOrUpdate)     // 新增/编辑菜单
+		role.DELETE("", roleAPI.Delete)        // 删除角色
+		role.GET("/option", roleAPI.GetOption) // 角色选项列表(树形)
+	}
+
+	// 操作日志模块
+	operationLog := auth.Group("/operation/log")
+	{
+		operationLog.GET("/list", operationLogAPI.GetList) // 操作日志列表
+		operationLog.DELETE("", operationLogAPI.Delete)    // 删除操作日志
+	}
+
+	// 页面模块
+	page := auth.Group("/page")
+	{
+		page.GET("/list", pageAPI.GetList) // 页面列表
+		page.POST("", pageAPI.AddOrUpdate) // 新增/编辑页面
+		page.DELETE("", pageAPI.Delete)    // 删除页面
 	}
 }
