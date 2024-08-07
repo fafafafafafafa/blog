@@ -27,6 +27,9 @@ var (
 	roleAPI         handle.Role         // 角色
 	operationLogAPI handle.OperationLog // 操作日志
 	pageAPI         handle.Page         // 页面
+
+	// 博客前台接口
+	frontAPI handle.Front // 博客前台接口汇总
 )
 
 // TODO: 前端修改 PUT 和 PATCH 请求
@@ -37,7 +40,7 @@ func RegisterHandlers(r *gin.Engine) {
 
 	registerBaseHandler(r)
 	registerAdminHandler(r)
-	// registerBlogHandler(r)
+	registerBlogHandler(r)
 }
 
 // 通用接口: 全部不需要 登录 + 鉴权
@@ -180,5 +183,56 @@ func registerAdminHandler(r *gin.Engine) {
 		page.GET("/list", pageAPI.GetList) // 页面列表
 		page.POST("", pageAPI.AddOrUpdate) // 新增/编辑页面
 		page.DELETE("", pageAPI.Delete)    // 删除页面
+	}
+}
+
+// 博客前台的接口: 大部分不需要登录, 部分需要登录
+func registerBlogHandler(r *gin.Engine) {
+	base := r.Group("/api/front")
+
+	base.GET("/about", blogInfoAPI.GetAbout) // 获取关于我
+	base.GET("/home", frontAPI.GetHomeInfo)  // 前台首页
+	base.GET("/page", pageAPI.GetList)       // 前台页面
+
+	article := base.Group("/article")
+	{
+		article.GET("/list", frontAPI.GetArticleList)    // 前台文章列表
+		article.GET("/:id", frontAPI.GetArticleInfo)     // 前台文章详情
+		article.GET("/archive", frontAPI.GetArchiveList) // 前台文章归档
+		article.GET("/search", frontAPI.SearchArticle)   // 前台文章搜索
+	}
+	category := base.Group("/category")
+	{
+		category.GET("/list", frontAPI.GetCategoryList) // 前台分类列表
+	}
+	tag := base.Group("/tag")
+	{
+		tag.GET("/list", frontAPI.GetTagList) // 前台标签列表
+	}
+	link := base.Group("/link")
+	{
+		link.GET("/list", frontAPI.GetLinkList) // 前台友链列表
+	}
+	message := base.Group("/message")
+	{
+		message.GET("/list", frontAPI.GetMessageList) // 前台留言列表
+	}
+	comment := base.Group("/comment")
+	{
+		comment.GET("/list", frontAPI.GetCommentList)                         // 前台评论列表
+		comment.GET("/replies/:comment_id", frontAPI.GetReplyListByCommentId) // 根据评论 id 查询回复
+	}
+
+	// 需要登录才能进行的操作
+	base.Use(middleware.JWTAuth())
+	{
+		base.POST("/upload", uploadAPI.UploadFile)    // 文件上传
+		base.GET("/user/info", userAPI.GetInfo)       // 根据 Token 获取用户信息
+		base.PUT("/user/info", userAPI.UpdateCurrent) // 根据 Token 更新当前用户信息
+
+		base.POST("/message", frontAPI.AddMessage)                  // 前台新增留言
+		base.POST("/comment", frontAPI.AddComment)                  // 前台新增评论
+		base.GET("/comment/like/:comment_id", frontAPI.LikeComment) // 前台点赞评论
+		base.GET("/article/like/:article_id", frontAPI.LikeArticle) // 前台点赞文章
 	}
 }

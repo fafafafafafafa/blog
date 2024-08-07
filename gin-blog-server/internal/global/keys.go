@@ -20,6 +20,7 @@ const (
 	ARTICLE_VIEW_COUNT    = "article_view_count" // 文章查看数
 
 	COMMENT_USER_LIKE_SET = "comment_user_like:" // 评论点赞 Set
+	COMMENT_LIKE_COUNT    = "comment_like_count" // 评论点赞数
 
 	CONFIG = "config" // 博客配置
 	PAGE   = "page"   // 页面封面
@@ -27,6 +28,7 @@ const (
 
 // Config Key
 const (
-	CONFIG_ARTICLE_COVER = "article_cover"
-	CONFIG_ABOUT         = "about"
+	CONFIG_ARTICLE_COVER     = "article_cover"
+	CONFIG_ABOUT             = "about"
+	CONFIG_IS_COMMENT_REVIEW = "is_comment_review"
 )

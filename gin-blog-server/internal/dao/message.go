@@ -30,3 +30,18 @@ func DeleteMessages(db *gorm.DB, ids []int) (int64, error) {
 	result := db.Where("id in ?", ids).Delete(&model.Message{})
 	return result.RowsAffected, result.Error
 }
+
+func AddMessage(db *gorm.DB, nickname, avatar, content, address, source string, speed int, isReview bool) (*model.Message, error) {
+	message := model.Message{
+		Nickname:  nickname,
+		Avatar:    avatar,
+		Content:   content,
+		IpAddress: address,
+		IpSource:  source,
+		Speed:     speed,
+		IsReview:  isReview,
+	}
+
+	result := db.Create(&message)
+	return &message, result.Error
+}

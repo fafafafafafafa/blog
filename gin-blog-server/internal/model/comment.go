@@ -36,3 +36,10 @@ type CommentQuery struct {
 	IsReview *bool  `form:"is_review"`
 	Type     int    `form:"type"`
 }
+
+type CommentVO struct {
+	Comment
+	LikeCount  int         `json:"like_count" gorm:"-"`
+	ReplyCount int         `json:"reply_count" gorm:"-"`
+	ReplyList  []CommentVO `json:"reply_list" gorm:"-"`
+}

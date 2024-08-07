@@ -35,3 +35,16 @@ func Paginate(page, size int) func(db *gorm.DB) *gorm.DB {
 		return db.Offset(offset).Limit(size)
 	}
 }
+
+// 数据列表
+func List[T any](db *gorm.DB, data T, slt, order, query string, args ...any) (T, error) {
+	db = db.Model(data).Select(slt).Order(order)
+	if query != "" {
+		db = db.Where(query, args...)
+	}
+	result := db.Find(&data)
+	if result.Error != nil {
+		return data, result.Error
+	}
+	return data, nil
+}
