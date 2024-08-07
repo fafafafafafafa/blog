@@ -78,4 +78,8 @@ var (
 
 	ErrCateHasArt = RegisterResult(3003, "删除失败，分类下存在文章")
 	ErrTagHasArt  = RegisterResult(4003, "删除失败，标签下存在文章")
+
+	ErrResourceNotExist    = RegisterResult(6002, "该资源不存在")
+	ErrResourceUsedByRole  = RegisterResult(6003, "该资源正在被角色使用，无法删除")
+	ErrResourceHasChildren = RegisterResult(6004, "该资源下存在子资源，无法删除")
 )

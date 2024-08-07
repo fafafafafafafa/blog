@@ -97,3 +97,33 @@ type Menu struct {
 
 	Roles []*Role `json:"roles" gorm:"many2many:role_menu"`
 }
+
+type ResourceTreeVO struct {
+	ID        int              `json:"id"`
+	CreatedAt time.Time        `json:"created_at"`
+	Name      string           `json:"name"`
+	Url       string           `json:"url"`
+	Method    string           `json:"request_method"`
+	Anonymous bool             `json:"is_anonymous"`
+	Children  []ResourceTreeVO `json:"children"`
+}
+
+// TODO: 使用 oneof 标签校验数据
+type AddOrEditResourceReq struct {
+	ID       int    `json:"id"`
+	Url      string `json:"url"`
+	Method   string `json:"request_method"`
+	Name     string `json:"name"`
+	ParentId int    `json:"parent_id"`
+}
+
+type EditAnonymousReq struct {
+	ID        int  `json:"id" binding:"required"`
+	Anonymous bool `json:"is_anonymous"`
+}
+
+type TreeOptionVO struct {
+	ID       int            `json:"key"`
+	Label    string         `json:"label"`
+	Children []TreeOptionVO `json:"children"`
+}

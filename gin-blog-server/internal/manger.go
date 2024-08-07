@@ -18,6 +18,7 @@ var (
 	commentAPI  handle.Comment  // 评论
 	messageAPI  handle.Message  // 留言
 	linkAPI     handle.Link     // 友情链接
+	resourceAPI handle.Resource // 资源
 	userAuthAPI handle.UserAuth // 用户账号
 	blogInfoAPI handle.BlogInfo // 博客设置
 	uploadAPI   handle.Upload   // 文件上传
@@ -133,6 +134,15 @@ func registerAdminHandler(r *gin.Engine) {
 		link.GET("/list", linkAPI.GetList) // 友链列表
 		link.POST("", linkAPI.AddOrUpdate) // 新增/编辑友链
 		link.DELETE("", linkAPI.Delete)    // 删除友链
+	}
+	// 资源模块
+	resource := auth.Group("/resource")
+	{
+		resource.GET("/list", resourceAPI.GetTreeList)          // 资源列表(树形)
+		resource.POST("", resourceAPI.AddOrUpdate)              // 新增/编辑资源
+		resource.DELETE("/:id", resourceAPI.Delete)             // 删除资源
+		resource.PUT("/anonymous", resourceAPI.UpdateAnonymous) // 修改资源匿名访问
+		resource.GET("/option", resourceAPI.GetOption)          // 资源选项列表(树形)
 	}
 
 	// 菜单模块
