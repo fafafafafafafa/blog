@@ -29,3 +29,10 @@ type Comment struct {
 	TopicId int      `json:"topic_id"` // 评论的文章
 	Article *Article `gorm:"foreignKey:TopicId" json:"article"`
 }
+
+type CommentQuery struct {
+	PageQuery
+	Nickname string `form:"nickname"`
+	IsReview *bool  `form:"is_review"`
+	Type     int    `form:"type"`
+}

@@ -67,3 +67,9 @@ type PageResult[T any] struct {
 	Total int64 `json:"total"`     // 总条数
 	List  []T   `json:"page_data"` // 分页数据
 }
+
+// 修改审核（批量）
+type UpdateReviewReq struct {
+	Ids      []int `json:"ids"`
+	IsReview bool  `json:"is_review"`
+}

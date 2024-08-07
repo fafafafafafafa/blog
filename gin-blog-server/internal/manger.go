@@ -15,6 +15,9 @@ var (
 	categoryAPI handle.Category // 分类
 	tagAPI      handle.Tag      // 标签
 	articleAPI  handle.Article  // 文章
+	commentAPI  handle.Comment  // 评论
+	messageAPI  handle.Message  // 留言
+	linkAPI     handle.Link     // 友情链接
 	userAuthAPI handle.UserAuth // 用户账号
 	blogInfoAPI handle.BlogInfo // 博客设置
 	uploadAPI   handle.Upload   // 文件上传
@@ -109,6 +112,29 @@ func registerAdminHandler(r *gin.Engine) {
 		articles.POST("/export", articleAPI.Export)               // 导出文章
 		articles.POST("/import", articleAPI.Import)               // 导入文章
 	}
+
+	// 评论模块
+	comment := auth.Group("/comment")
+	{
+		comment.GET("/list", commentAPI.GetList)        // 评论列表
+		comment.DELETE("", commentAPI.Delete)           // 删除评论
+		comment.PUT("/review", commentAPI.UpdateReview) // 修改评论审核
+	}
+	// 留言模块
+	message := auth.Group("/message")
+	{
+		message.GET("/list", messageAPI.GetList)        // 留言列表
+		message.DELETE("", messageAPI.Delete)           // 删除留言
+		message.PUT("/review", messageAPI.UpdateReview) // 审核留言
+	}
+	// 友情链接
+	link := auth.Group("/link")
+	{
+		link.GET("/list", linkAPI.GetList) // 友链列表
+		link.POST("", linkAPI.AddOrUpdate) // 新增/编辑友链
+		link.DELETE("", linkAPI.Delete)    // 删除友链
+	}
+
 	// 菜单模块
 	menu := auth.Group("/menu")
 	{

@@ -10,3 +10,10 @@ type Message struct {
 	Speed     int    `gorm:"type:tinyint(1);comment:弹幕速度" json:"speed"`
 	IsReview  bool   `json:"is_review"`
 }
+
+// 条件查询列表
+type MessageQuery struct {
+	PageQuery
+	Nickname string `form:"nickname"`
+	IsReview *bool  `form:"is_review"`
+}
