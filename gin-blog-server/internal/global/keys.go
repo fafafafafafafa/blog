@@ -22,3 +22,8 @@ const (
 	CONFIG = "config" // 博客配置
 
 )
+
+// Config Key
+const (
+	CONFIG_ABOUT = "about"
+)

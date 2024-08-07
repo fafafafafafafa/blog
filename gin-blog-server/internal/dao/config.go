@@ -20,6 +20,7 @@ func GetConfigMap(db *gorm.DB) (map[string]string, error) {
 
 	return m, nil
 }
+
 func CheckConfigMap(db *gorm.DB, m map[string]string) error {
 	return db.Transaction(func(tx *gorm.DB) error {
 		for k, v := range m {
@@ -30,4 +31,29 @@ func CheckConfigMap(db *gorm.DB, m map[string]string) error {
 		}
 		return nil
 	})
+}
+
+func GetConfig(db *gorm.DB, key string) string {
+	var config model.Config
+	result := db.Where("key", key).First(&config)
+
+	if result.Error != nil {
+		return ""
+	}
+
+	return config.Value
+}
+
+func CheckConfig(db *gorm.DB, key, value string) error {
+	var config model.Config
+
+	result := db.Where("key", key).FirstOrCreate(&config)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	config.Value = value
+	result = db.Save(&config)
+
+	return result.Error
 }

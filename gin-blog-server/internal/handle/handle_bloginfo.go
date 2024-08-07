@@ -160,3 +160,37 @@ func (*BlogInfo) UpdateConfig(c *gin.Context) {
 
 	ReturnSuccess(c, nil)
 }
+
+// @Summary 获取关于
+// @Description 获取关于
+// @Tags blog_info
+// @Produce json
+// @Success 0 {object} Response[string]
+// @Router /about [get]
+func (*BlogInfo) GetAbout(c *gin.Context) {
+	ReturnSuccess(c, dao.GetConfig(GetDB(c), g.CONFIG_ABOUT))
+}
+
+// @Summary 更新关于
+// @Description 更新关于
+// @Tags blog_info
+// @Accept json
+// @Produce json
+// @Param data body object true "关于"
+// @Success 0 {object} Response[string]
+// @Router /about [put]
+func (*BlogInfo) UpdateAbout(c *gin.Context) {
+	var req model.AboutReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		ReturnError(c, g.ErrRequest, err)
+		return
+	}
+
+	err := dao.CheckConfig(GetDB(c), g.CONFIG_ABOUT, req.Content)
+	if err != nil {
+		ReturnError(c, g.ErrDbOp, err)
+		return
+	}
+
+	ReturnSuccess(c, req.Content)
+}

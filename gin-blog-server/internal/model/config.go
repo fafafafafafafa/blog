@@ -6,3 +6,7 @@ type Config struct {
 	Value string `gorm:"type:varchar(256)" json:"value"`
 	Desc  string `gorm:"type:varchar(256)" json:"desc"`
 }
+
+type AboutReq struct {
+	Content string `json:"content"`
+}
