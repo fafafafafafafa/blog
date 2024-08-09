@@ -35,7 +35,12 @@ func JWTAuth() gin.HandlerFunc {
 		db := c.MustGet(g.CTX_DB).(*gorm.DB)
 
 		// 系统管理的资源需要做验证, 没有加进来的不需要
+		// slog.Info(c.FullPath())
 		url, method := c.FullPath()[4:], c.Request.Method
+		if index := strings.Index(url, "/front"); index != -1 {
+			url = url[6:]
+		}
+		slog.Info(url)
 		resource, err := dao.GetResource(db, url, method)
 		if err != nil {
 			// 没有找到的资源, 直接跳过后续验证

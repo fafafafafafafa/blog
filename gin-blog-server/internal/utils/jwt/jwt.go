@@ -27,16 +27,20 @@ func GenToken(secret, issuer string, expireHour, userId int, roleIds []int) (str
 		RoleIds: roleIds,
 		// UUID:    uuid,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    issuer,
+			// 发行人
+			Issuer: issuer,
+			// 到期时间
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(expireHour) * time.Hour)),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			// 发行时间
+			IssuedAt: jwt.NewNumericDate(time.Now()),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(secret))
+	return token.SignedString([]byte(secret)) // 生成jwt字符串
 }
 
 func ParseToken(secret, token string) (*MyClaims, error) {
+	// &MyClaims{} 用于接收解析 JWT 后的 claims 数据
 	jwtToken, err := jwt.ParseWithClaims(token, &MyClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil

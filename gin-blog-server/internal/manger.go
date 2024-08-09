@@ -1,8 +1,10 @@
 package ginblog
 
 import (
+	g "gin-blog/internal/global"
 	"gin-blog/internal/handle"
 	"gin-blog/internal/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"     // swagger embed files
@@ -37,6 +39,8 @@ func RegisterHandlers(r *gin.Engine) {
 	// Swagger
 	docs.SwaggerInfo.BasePath = "/api"
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// 静态资源
+	r.StaticFS("/public/uploaded", http.Dir(g.Conf.Upload.StorePath))
 
 	registerBaseHandler(r)
 	registerAdminHandler(r)

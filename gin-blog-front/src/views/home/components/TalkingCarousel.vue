@@ -1,13 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-const sentence = ref('学海无涯苦作舟。')
+const sentence = ref('愿此行，终抵群星。')
 
-onMounted(() => {
-  fetch('https://v1.hitokoto.cn?c=i')
-    .then(res => res.json())
-    .then(data => sentence.value = data.hitokoto)
-})
+// onMounted(() => {
+//   fetch('https://v1.hitokoto.cn?c=i')
+//     .then(res => res.json())
+//     .then(data => sentence.value = data.hitokoto)
+// })
 </script>
 
 <template>

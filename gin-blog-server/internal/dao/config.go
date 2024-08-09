@@ -24,7 +24,7 @@ func GetConfigMap(db *gorm.DB) (map[string]string, error) {
 func CheckConfigMap(db *gorm.DB, m map[string]string) error {
 	return db.Transaction(func(tx *gorm.DB) error {
 		for k, v := range m {
-			result := tx.Model(model.Config{}).Where("key=?", k).Update("value", v)
+			result := tx.Model(model.Config{}).Where("key", k).Update("value", v)
 			if result.Error != nil {
 				return result.Error
 			}

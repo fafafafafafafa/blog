@@ -27,8 +27,9 @@ function getOneSentence() {
   // 一言 + 打字机特效
   fetch('https://v1.hitokoto.cn?c=i')
     .then(res => res.json())
-    .then(data => new EasyTyper(typer, data.hitokoto, () => {}, () => {}))
-    .catch(() => new EasyTyper(typer, '宠辱不惊，看庭前花开花落；去留无意，望天上云卷云舒。', () => {}, () => {}))
+    // .then(data => new EasyTyper(typer, data.hitokoto, () => {}, () => {}))
+    .then(data => new EasyTyper(typer, '如果现在不出发，我们将永远不会启航。', () => {}, () => {}))
+    .catch(() => new EasyTyper(typer, '如果现在不出发，我们将永远不会启航。', () => {}, () => {}))
 }
 
 function scrollDown() {
