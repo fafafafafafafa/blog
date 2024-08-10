@@ -75,16 +75,17 @@ services:
     container_name: gvb-web
     restart: always
     # 需要开启 https, 请提供证书, 并设置 USE_HTTPS=true
-    volumes:
-      - ./server.crt:/etc/nginx/crt/server.crt
-      - ./server.key:/etc/nginx/crt/server.key
+    # volumes:
+    #   - ./server.crt:/etc/nginx/crt/server.crt
+    #   - ./server.key:/etc/nginx/crt/server.key
     environment:
       - USE_HTTPS=${USE_HTTPS} # 使用 https 设置为 true
+      # - WEB_PORT = ${WEB_PORT}
       - SERVER_NAME=${SERVER_NAME} # 域名 或 localhost
       - BACKEND_HOST=${BACKEND_HOST} # 后端服务地址
       - SERVER_PORT=${SERVER_PORT} # 服务端口
     ports:
-      - "80:80"
+      - "8233:80"
       - "443:443"
     networks:
       gvb-network:

@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS BUILDER
+FROM golang:1.21-alpine AS builder
 WORKDIR /gvb
 
 COPY go.mod go.mod
@@ -13,10 +13,10 @@ RUN cd cmd && go build -o server .
 FROM alpine:3.19
 ENV WORK_PATH /gvb
 WORKDIR ${WORK_PATH}
-COPY --from=BUILDER ${WORK_PATH}/cmd/server .
-COPY --from=BUILDER ${WORK_PATH}/config.docker.yml .
+COPY --from=builder ${WORK_PATH}/cmd/server .
+COPY --from=builder ${WORK_PATH}/config.docker.yml .
 # 离线IP 数据管理框架和定位库
-COPY --from=BUILDER ${WORK_PATH}/assets/ip2region.xdb ./assets/ip2region.xdb 
+COPY --from=builder ${WORK_PATH}/assets/ip2region.xdb ./assets/ip2region.xdb 
 
 EXPOSE 8765
 
