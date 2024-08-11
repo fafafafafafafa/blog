@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS builder
+FROM registry.cn-hangzhou.aliyuncs.com/blog085712/blog:golang-1.21-alpine AS builder
 WORKDIR /gvb
 
 COPY go.mod go.mod
@@ -10,7 +10,7 @@ RUN go env -w GO111MODULE=on \
 COPY . .
 RUN cd cmd && go build -o server . 
 
-FROM alpine:3.19
+FROM registry.cn-hangzhou.aliyuncs.com/blog085712/blog:alpine-3.19
 ENV WORK_PATH /gvb
 WORKDIR ${WORK_PATH}
 COPY --from=builder ${WORK_PATH}/cmd/server .

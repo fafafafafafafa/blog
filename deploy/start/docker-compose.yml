@@ -10,7 +10,7 @@ networks:
 
 services:
   gvb-redis:
-    image: redis:7.0-alpine
+    image: registry.cn-hangzhou.aliyuncs.com/blog085712/blog:redis-7.0-alpine
     container_name: gvb-redis
     restart: always
     volumes:
@@ -75,9 +75,9 @@ services:
     container_name: gvb-web
     restart: always
     # 需要开启 https, 请提供证书, 并设置 USE_HTTPS=true
-    # volumes:
-    #   - ./server.crt:/etc/nginx/crt/server.crt
-    #   - ./server.key:/etc/nginx/crt/server.key
+    volumes:
+      - ./server.crt:/etc/nginx/crt/server.crt
+      - ./server.key:/etc/nginx/crt/server.key
     environment:
       - USE_HTTPS=${USE_HTTPS} # 使用 https 设置为 true
       # - WEB_PORT = ${WEB_PORT}
