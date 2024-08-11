@@ -80,7 +80,7 @@ services:
       - ./server.key:/etc/nginx/crt/server.key.unsecure
     environment:
       - USE_HTTPS=${USE_HTTPS} # 使用 https 设置为 true
-      - WEB_PORT = ${WEB_PORT}
+      # - WEB_PORT = ${WEB_PORT}
       - SERVER_NAME=${SERVER_NAME} # 域名 或 localhost
       - BACKEND_HOST=${BACKEND_HOST} # 后端服务地址
       - SERVER_PORT=${SERVER_PORT} # 服务端口
