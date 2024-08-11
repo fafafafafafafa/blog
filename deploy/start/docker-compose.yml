@@ -77,7 +77,7 @@ services:
     # 需要开启 https, 请提供证书, 并设置 USE_HTTPS=true
     volumes:
       - ./server.crt:/etc/nginx/crt/server.crt
-      - ./server.key:/etc/nginx/crt/server.key.unsecure
+      - ./server.key.unsecure:/etc/nginx/crt/server.key.unsecure
     environment:
       - USE_HTTPS=${USE_HTTPS} # 使用 https 设置为 true
       # - WEB_PORT = ${WEB_PORT}

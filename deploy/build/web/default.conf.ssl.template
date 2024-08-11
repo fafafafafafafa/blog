@@ -16,6 +16,7 @@ server {
     # 私钥文件的相对路径或绝对路径
     # ssl_certificate_key /etc/nginx/crt/server.key;
     ssl_certificate_key /etc/nginx/crt/server.key.unsecure;
+
     ssl_session_timeout 5m;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE; 
