@@ -49,5 +49,5 @@ Qiniu:
   Bucket: "blog-yifei"
   AccessKey: "XDLe0zOInWX8mCIIQOk5YznJOwzsW4p4cBVIv_TA"
   SecretKey: "TC1UCLHeTs30gXdn2SsNKLIyAQExs91vQUvaiUvF"
-  UseHttps: false
+  UseHttps: true
   UseCdnDomains: false

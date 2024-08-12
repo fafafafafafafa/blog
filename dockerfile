@@ -24,6 +24,9 @@ COPY --from=node_builder /app/admin/dist /usr/share/nginx/html/admin
 COPY deploy/build/web/default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY deploy/build/web/default.conf.ssl.template /etc/nginx/conf.d/default.conf.ssl.template
 COPY deploy/build/web/run.sh /docker-entrypoint.sh
+# 拷贝七牛云验证文件到根目录
+COPY deploy/build/web/verification.html /usr/share/nginx/html
+
 RUN chmod a+x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
