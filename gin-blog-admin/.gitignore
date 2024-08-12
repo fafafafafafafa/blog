@@ -33,7 +33,6 @@ dist-ssr
 # rollup-plugin-visualizer
 stats.html
 
-# Dotenv
-.env*
+# Dotenvs
 *.local
 !.env.sample
