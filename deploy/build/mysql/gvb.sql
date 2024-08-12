@@ -373,7 +373,7 @@ INSERT INTO `resource` VALUES (79, '2022-10-31 20:55:15.496', '2022-10-31 20:55:
 INSERT INTO `resource` VALUES (80, '2022-10-31 20:55:48.257', '2022-10-31 20:55:48.257', 11, '/setting/about', 'GET', '获取关于我', 0);
 INSERT INTO `resource` VALUES (81, '2022-10-31 20:56:21.722', '2022-10-31 20:56:21.722', 11, '/setting/blog-config', 'PUT', '修改博客设置', 0);
 INSERT INTO `resource` VALUES (82, '2022-10-31 21:57:30.021', '2022-10-31 21:57:30.021', 74, '/user/info', 'GET', '获取当前用户信息', 0);
-INSERT INTO `resource` VALUES (84, '2022-10-31 22:06:18.348', '2022-10-31 22:07:38.004', 74, '/user', 'PUT', '修改用户信息', 0);
+INSERT INTO `resource` VALUES (84, '2022-10-31 22:06:18.348', '2022-10-31 22:07:38.004', 74, '/user/info', 'PUT', '修改用户信息', 0);
 INSERT INTO `resource` VALUES (85, '2022-11-02 11:55:05.395', '2022-11-02 11:55:05.395', 11, '/setting/about', 'PUT', '修改关于我', 0);
 INSERT INTO `resource` VALUES (86, '2022-11-02 13:20:09.485', '2022-11-02 13:20:09.485', 74, '/user/online', 'GET', '获取在线用户列表', 0);
 INSERT INTO `resource` VALUES (91, '2022-11-03 16:42:31.558', '2022-11-03 16:42:31.558', 0, '', '', '操作日志模块', 0);
