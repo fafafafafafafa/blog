@@ -12,10 +12,11 @@ server {
     # 绑定证书的域名
     server_name ${SERVER_NAME};
     # 证书文件的相对路径或绝对路径
-    ssl_certificate /etc/nginx/crt/server.crt;
+    # ssl_certificate /etc/nginx/crt/server.crt;
+    ssl_certificate /etc/nginx/crt/server.pem;
     # 私钥文件的相对路径或绝对路径
-    # ssl_certificate_key /etc/nginx/crt/server.key;
-    ssl_certificate_key /etc/nginx/crt/server.key.unsecure;
+    ssl_certificate_key /etc/nginx/crt/server.key;
+    # ssl_certificate_key /etc/nginx/crt/server.key.unsecure;
 
     ssl_session_timeout 5m;
     ssl_protocols TLSv1.2 TLSv1.3;
