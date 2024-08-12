@@ -85,7 +85,7 @@ services:
       - BACKEND_HOST=${BACKEND_HOST} # 后端服务地址
       - SERVER_PORT=${SERVER_PORT} # 服务端口
     ports:
-      - "8233:80"
+      - "80:80"
       - "443:443"
     networks:
       gvb-network:

@@ -32,5 +32,5 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 # "daemon off;":
 CMD [ "nginx", "-g", "daemon off;" ]
 
-EXPOSE 8233
+EXPOSE 80
 EXPOSE 443
