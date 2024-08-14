@@ -37,7 +37,13 @@ func (*Qiniu) UploadFile(file *multipart.FileHeader) (filePath, fileName string,
 	if putErr != nil {
 		return "", "", errors.New("function formUploader.Put() Filed, err:" + putErr.Error())
 	}
-	httpHead := "http://"
+	var httpHead string
+	if g.GetConfig().Qiniu.UseHTTPS{
+		httpHead = "https://"
+	}else{
+		httpHead = "http://"
+	}
+	
 	return httpHead + g.GetConfig().Qiniu.ImgPath + "/" + ret.Key, ret.Key, nil
 }
 

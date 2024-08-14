@@ -44,10 +44,11 @@ Upload:
   Path: "public/uploaded"      # 本地文件访问路径: OssType="local" 生效
   StorePath: "../public/uploaded" # 本地文件上传路径: 相对于 main.go, OssType="local" 生效
 Qiniu:
-  ImgPath: "shwhcgv55.hd-bkt.clouddn.com" # 外链
+  ImgPath: "images.yiff233.cn" # 外链
   Zone: ""
-  Bucket: "blog-yifei"
+  Bucket: "yiff233"
   AccessKey: "XDLe0zOInWX8mCIIQOk5YznJOwzsW4p4cBVIv_TA"
   SecretKey: "TC1UCLHeTs30gXdn2SsNKLIyAQExs91vQUvaiUvF"
   UseHttps: true
-  UseCdnDomains: false
+  UseCdnDomains: true
+
