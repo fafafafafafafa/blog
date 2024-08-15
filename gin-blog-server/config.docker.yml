@@ -40,9 +40,9 @@ Captcha:
   SendEmail: true # 通过邮箱发送验证码
   ExpireTime: 15  # 过期时间 (分钟)
 Upload:
-  OssType: "qiniu" # local | qiniu
+  OssType: "local" # local | qiniu
   Path: "public/uploaded"      # 本地文件访问路径: OssType="local" 生效
-  StorePath: "../public/uploaded" # 本地文件上传路径: 相对于 main.go, OssType="local" 生效
+  StorePath: "public/uploaded" # 本地文件上传路径: 相对于 main.go, OssType="local" 生效
 Qiniu:
   ImgPath: "images.yiff233.cn" # 外链
   Zone: ""

@@ -9,9 +9,24 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	//"os"
+	//"log/slog"
 )
 
 func main() {
+	// mkdirErr := os.MkdirAll("../public/uploaded", os.ModePerm) // 尝试创建存储路径
+	// if mkdirErr != nil {
+		//	slog.Error("function os.MkdirAll() Filed", slog.Any("err", mkdirErr.Error()))
+		//return
+		//}
+
+	//out, createErr := os.Create("./hello.txt")
+        //        if createErr != nil {
+        //        slog.Error("function os.Create() Filed", slog.String("err", createErr.Error()))
+        //        return
+        //}
+	//defer out.Close() // 创建文件 defer 关闭
+
 	configPath := flag.String("c", "../config.yml", "配置文件路径")
 	flag.Parse()
 

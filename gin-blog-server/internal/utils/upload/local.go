@@ -52,11 +52,14 @@ func (*Local) UploadFile(file *multipart.FileHeader) (filePath, fileName string,
 		slog.Error("function io.Copy() Filed", slog.String("err", copyErr.Error()))
 		return "", "", errors.New("function io.Copy() Filed, err:" + copyErr.Error())
 	}
+
+	slog.Info("文件生成成功", storePath)
 	return filepath, filename, nil
 }
 
 // 从本地删除文件
 func (*Local) DeleteFile(key string) error {
+	slog.Info("删除本地文件", key)
 	p := g.GetConfig().Upload.StorePath + "/" + key
 	if strings.Contains(p, g.GetConfig().Upload.StorePath) {
 		if err := os.Remove(p); err != nil {
